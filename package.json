@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "server": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
+    "antd": "^4.4.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
@@ -42,8 +43,10 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^2.5.1",
+    "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "node-sass": "^4.14.1",
+    "react-router-dom": "^5.2.0",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.0",

@@ -1,3 +1,61 @@
 .button {
     color: red;
 }
+
+.header{
+    text-align:center;
+}
+
+.logo {
+    height: 150px;
+    width: 150px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.items {
+    // margin-top: 30px;
+    // align-items: center;
+    // justify-content: center;
+    text-align: center;
+}
+
+.align-center {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+.song-card {
+    margin: auto;
+    margin-bottom: 10px !important;
+    width: 700px;
+    text-align: left !important;
+}
+
+.playlist-input-box {
+    margin: auto;
+    margin-bottom: 10px !important;
+    width: 500px;
+}
+
+.thumbnail {
+    // display: "right";
+    width: "90px" !important;
+    height: "90px" !important;
+}
+
+.shift-right {
+    display: "right";
+    width: "20px";
+    height: "20px";
+}
+
+.search-bar {
+    // margin-right: center !important;
+    // position: left !important;
+    width: 500px;
+    padding: "5px";
+    margin: "10px" !important;
+}
