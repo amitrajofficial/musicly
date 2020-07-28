@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Card, Col, Row, Progress, Button } from 'antd';
 import Search from './Search';
-import { PlayCircleOutlined } from '@ant-design/icons';
+import { PlayCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 class Songs extends Component {
     state={
@@ -26,15 +26,17 @@ class Songs extends Component {
 
     render(){
         console.log("Inside SongComponent: ",this.props, this.state);
+        let { playlistName, songs, albums, listView, addToPlaylist, currentlyPlaying } = this.props;
+        let { search } = this.state;
         return (
             <>
             <Search onChange={(e)=>this.searchSong(e)} />
             {
-                Object.keys(this.props.songs).length !== 0 && 
-                    this.props.songs.filter((data)=>{
-                        if(this.state.search == null)
+                Object.keys(songs).length !== 0 && 
+                    songs.filter((data)=>{
+                        if(search == null)
                             return data
-                        else if(data.title.toLowerCase().includes(this.state.search.toLowerCase()) ){
+                        else if(data.title.toLowerCase().includes(search.toLowerCase()) ){
                             return data
                         }
                       }).map((song, index)=> {
@@ -47,11 +49,19 @@ class Songs extends Component {
                                     <Col span={16}>
                                         <p>Song Title: {song.title}</p>
                                         <p>Singer: </p>
-                                        <p>Album: { this.props.albums.filter(album=>{if(album.id === song.albumId) return album.title})[0].title }</p>
-                                        <Button onClick={() => this.playSong(song.id)} icon={<PlayCircleOutlined/>}>
-                                            Play
-                                        </Button>
-                                        {(this.state.currentlyPlaying === song.id || this.props.currentlyPlaying === song.id) && 
+                                        {
+                                            albums &&    
+                                            <p>Album: { albums.filter(album=>{if(album.id === song.albumId) return album.title})[0].title }</p>
+                                        }{
+                                            !listView ?
+                                            <Button onClick={() => this.playSong(song.id)} icon={<PlayCircleOutlined/>}>
+                                                Play
+                                            </Button> : 
+                                            <Button onClick={() => addToPlaylist(song, playlistName)} icon={<PlusOutlined />}>
+                                                Add to {playlistName}
+                                            </Button>
+                                        }
+                                        {(this.state.currentlyPlaying === song.id || currentlyPlaying === song.id) && 
                                             // TODO: We can change this to show the progress of the song using counter function.
                                             <Progress percent={Math.random() * (100 - 0) + 0} showInfo={false} />
                                         }

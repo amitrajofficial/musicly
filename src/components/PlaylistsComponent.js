@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Search from './Search';
-import { Card, Col, Row, Button, Input, Typography } from 'antd';
+import { Card, Col, Row, Button, Input, Typography, Modal } from 'antd';
 import { NavLink } from 'react-router-dom';
 import Songs from './SongsComponent';
 
@@ -16,7 +16,9 @@ class Playlists extends Component {
         songs: {},
         albums: {},
         currentlyPlaying: null,
-        search: ""
+        search: "",
+        allSongs: {},
+        visible: false
     }
 
     componentDidMount() {
@@ -39,8 +41,9 @@ class Playlists extends Component {
                 .then(response => response.json())
                 .then(songs => {
                     console.log("songs",songs);
-                    songs = songs.slice(10,15);
-                    this.setState({songs: songs});
+                    songs = songs.slice(100,120);
+                    let slicedSongList = songs.slice(10,15);
+                    this.setState({songs: slicedSongList, allSongs: songs});
                 })
             fetch('https://jsonplaceholder.typicode.com/albums')
                 .then(response => response.json())
@@ -81,6 +84,22 @@ class Playlists extends Component {
         this.setState({search:keyword})
     }
 
+    showModal = () => {
+        this.setState({ visible: true });
+    };
+
+    addToPlaylist(song, playlistName){
+        console.log("addToPlaylist CALLED", song, playlistName);
+        this.setState({songs: [...this.state.songs, song]});
+    }
+
+    handleReturn = e => {
+        console.log(e);
+        this.setState({
+          visible: false,
+        });
+    };
+
     render() {
         let d = new Date();
         let date = d. getDate();
@@ -100,7 +119,26 @@ class Playlists extends Component {
                         </div>
                         <Col className="align-center" >
                             <Button onClick={this.shuffleMusic.bind(this)}>Shuffle Play</Button>
-                            <Button span={8} style={{marginLeft: "10px"}}>Add Song</Button>
+                            <Button span={8} onClick={this.showModal} style={{marginLeft: "10px"}}>Add Song</Button>
+                            <Modal
+                                title="Basic Modal"
+                                visible={this.state.visible}
+                                width="750px"
+                                onOk={this.handleReturn}
+                                onCancel={this.handleReturn}
+                                cancelText={"Return to "+playlistName}
+                                okText=""
+                            >
+                                {
+                                    Object.keys(this.state.allSongs).length !== 0 && 
+                                        <Songs 
+                                            songs={this.state.allSongs} 
+                                            listView={true} 
+                                            playlistName={playlistName} 
+                                            addToPlaylist={this.addToPlaylist.bind(this)} 
+                                        />
+                                }
+                            </Modal>
                         </Col>
                         {Object.keys(this.state.songs).length !== 0 && Object.keys(this.state.albums).length !== 0 && 
                             <Songs songs={this.state.songs} albums={this.state.albums} currentlyPlaying={this.state.currentlyPlaying}/>}
